@@ -1,10 +1,12 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo/model/taskData.dart';
 
+// ignore: must_be_immutable
 class AddTask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    String? newTaskTitle;
     return Container(
       color: Color(0xff676767),
       child: Container(
@@ -31,6 +33,9 @@ class AddTask extends StatelessWidget {
               TextField(
                 textAlign: TextAlign.center,
                 autofocus: true,
+                onChanged: (value) {
+                  newTaskTitle = value;
+                },
               ),
               SizedBox(
                 height: 20.0,
@@ -43,7 +48,12 @@ class AddTask extends StatelessWidget {
                       Colors.grey[600],
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    print(newTaskTitle);
+                    Provider.of<TaskData>(context, listen: false)
+                        .addTask(newTaskTitle!);
+                    Navigator.pop(context);
+                  },
                   child: Text(
                     'Add',
                     style: TextStyle(
